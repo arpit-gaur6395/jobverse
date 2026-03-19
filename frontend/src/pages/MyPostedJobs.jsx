@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
-import DebugStatusUpdate from "../components/DebugStatusUpdate";
 
 export default function MyPostedJobs() {
     const { user, loading: authLoading } = useContext(AuthContext);
@@ -98,7 +97,7 @@ export default function MyPostedJobs() {
     // Filter and sort jobs
     const filteredAndSortedJobs = jobs
         .filter(job =>
-            job.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.job?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.location?.toLowerCase().includes(searchTerm.toLowerCase())
         )
@@ -107,7 +106,7 @@ export default function MyPostedJobs() {
                 case "createdAt":
                     return new Date(b.createdAt) - new Date(a.createdAt);
                 case "title":
-                    return (a.title || "").localeCompare(b.title || "");
+                    return (a.job || "").localeCompare(b.job || "");
                 case "company":
                     return (a.company || "").localeCompare(b.company || "");
                 default:
@@ -156,9 +155,9 @@ export default function MyPostedJobs() {
                     </div>
 
                     {/* Debug Tool */}
-                    <div className="mb-8">
+                    {/* <div className="mb-8">
                         <DebugStatusUpdate />
-                    </div>
+                    </div> */}
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -262,7 +261,7 @@ export default function MyPostedJobs() {
                                                 </div>
                                                 <div className="flex-1">
                                                     <h3 className="text-xl font-bold text-gray-800 mb-1">
-                                                        {job.title || job.job}
+                                                        {job.job}
                                                     </h3>
                                                     <p className="text-gray-600 mb-3">{job.company}</p>
                                                     <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-3">
@@ -284,7 +283,7 @@ export default function MyPostedJobs() {
                                                             👥 {getApplicationCount(job._id)} applications
                                                         </span>
                                                         <span className="flex items-center gap-1">
-                                                            📊 {job.type || "Full-time"}
+                                                            📊 {job.jobType || "Full-time"}
                                                         </span>
                                                     </div>
                                                 </div>

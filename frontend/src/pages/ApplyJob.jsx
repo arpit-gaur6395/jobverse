@@ -3,20 +3,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
 import { API_URL } from "../config/api";
 import Footer from "../components/Footer";
-import { AuthContext } from "../context/AuthContext";
+import { AuthProvider } from "../context/authContext";
 import { useContext } from "react";
 
 function ApplyJob() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthProvider);
 
   const [formData, setFormData] = useState({
     name: "",
     email: ""
   });
   const [hasApplied, setHasApplied] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Auto-fill with user data
   useEffect(() => {
@@ -59,7 +59,7 @@ function ApplyJob() {
       return;
     }
 
-    setLoading(true);
+    setSubmitting(true);
     try {
       // Create FormData for file upload
       const formData = new FormData();
@@ -91,7 +91,7 @@ function ApplyJob() {
       const errorMessage = err.response?.data?.message || "Failed to apply. Please try again.";
       alert(errorMessage);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -208,19 +208,19 @@ function ApplyJob() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={submitting}
             style={{
               width: "100%",
               marginBottom: "10px",
               padding: "10px",
-              backgroundColor: loading ? "#9ca3af" : "#3b82f6",
+              backgroundColor: submitting ? "#9ca3af" : "#3b82f6",
               color: "white",
               border: "none",
               borderRadius: "4px",
-              cursor: loading ? "not-allowed" : "pointer"
+              cursor: submitting ? "not-allowed" : "pointer"
             }}
           >
-            {loading ? "Applying..." : "Apply"}
+            {submitting ? "Submitting..." : "Apply"}
           </button>
           <button
             type="button"

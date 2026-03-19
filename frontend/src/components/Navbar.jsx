@@ -1,15 +1,27 @@
 import { Link } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 
+// ========================================
+// 🧭 NAVBAR COMPONENT
+// ========================================
+
+/**
+ * Main navigation component with responsive design
+ * @returns {JSX.Element}
+ */
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Toggle mobile menu
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  // Close mobile menu
   const closeMenu = () => setIsOpen(false);
 
+  // Handle scroll effect for navbar styling
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -18,6 +30,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
