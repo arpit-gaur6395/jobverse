@@ -312,20 +312,20 @@ export default function ViewApplicants() {
                                                 <div className="flex-shrink-0">
                                                     <p className="text-xs font-medium text-gray-600 mb-2">Photo:</p>
                                                     <a
-                                                        href={`${getBaseUrl()}/uploads/${applicant.photo}`}
+                                                        href={getFileUrl(applicant.photo)}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="block"
                                                         onClick={(e) => {
                                                             e.preventDefault();
-                                                            const url = `${getBaseUrl()}/uploads/${applicant.photo}`;
+                                                            const url = getFileUrl(applicant.photo);
                                                             console.log('Photo URL:', url);
                                                             console.log('Applicant photo field:', applicant.photo);
                                                             window.open(url, '_blank');
                                                         }}
                                                     >
                                                         <img
-                                                            src={`${getBaseUrl()}/uploads/${applicant.photo}`}
+                                                            src={getFileUrl(applicant.photo)}
                                                             alt="Applicant Photo"
                                                             className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover border border-gray-300 hover:border-blue-500 transition-colors cursor-pointer"
                                                         />
