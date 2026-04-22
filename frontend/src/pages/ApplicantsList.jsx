@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../config/api";
+import { API_URL, getBaseUrl } from "../config/api";
 import Footer from "../components/Footer";
 
 export default function ApplicantsList({ jobId }) {
@@ -93,7 +93,7 @@ export default function ApplicantsList({ jobId }) {
                                             <div>
                                                 <p className="text-xs font-medium text-gray-600 mb-1">Photo:</p>
                                                 <img
-                                                    src={`http://localhost:5000${app.photo}`}
+                                                    src={`${getBaseUrl()}${app.photo}`}
                                                     alt="Applicant Photo"
                                                     className="w-16 h-16 rounded-lg object-cover border border-gray-300"
                                                 />
@@ -104,7 +104,7 @@ export default function ApplicantsList({ jobId }) {
                                             <div>
                                                 <p className="text-xs font-medium text-gray-600 mb-1">Resume:</p>
                                                 <a
-                                                    href={`http://localhost:5000${app.resume}`}
+                                                    href={`${getBaseUrl()}${app.resume}`}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="inline-flex items-center px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm"

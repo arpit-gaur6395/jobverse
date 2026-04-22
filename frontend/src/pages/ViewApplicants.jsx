@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { API_URL, getBaseUrl } from '../config/api';
 import axiosInstance from "../config/axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
 export default function ViewApplicants() {
@@ -129,12 +130,13 @@ export default function ViewApplicants() {
 
     const getResumeUrl = (filePath) => {
         if (!filePath) return null;
+        const baseUrl = getBaseUrl();
         // If path already includes /uploads/, use it directly
         if (filePath.includes('/uploads/')) {
-            return `http://localhost:5000${filePath}`;
+            return `${baseUrl}${filePath}`;
         }
         // Otherwise, assume it's just a filename
-        return `http://localhost:5000/uploads/${filePath}`;
+        return `${baseUrl}/uploads/${filePath}`;
     };
 
     const getStatusIcon = (status) => {
@@ -301,20 +303,20 @@ export default function ViewApplicants() {
                                                 <div className="flex-shrink-0">
                                                     <p className="text-xs font-medium text-gray-600 mb-2">Photo:</p>
                                                     <a
-                                                        href={`http://localhost:5000/uploads/${applicant.photo}`}
+                                                        href={`${getBaseUrl()}/uploads/${applicant.photo}`}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="block"
                                                         onClick={(e) => {
                                                             e.preventDefault();
-                                                            const url = `http://localhost:5000/uploads/${applicant.photo}`;
+                                                            const url = `${getBaseUrl()}/uploads/${applicant.photo}`;
                                                             console.log('Photo URL:', url);
                                                             console.log('Applicant photo field:', applicant.photo);
                                                             window.open(url, '_blank');
                                                         }}
                                                     >
                                                         <img
-                                                            src={`http://localhost:5000/uploads/${applicant.photo}`}
+                                                            src={`${getBaseUrl()}/uploads/${applicant.photo}`}
                                                             alt="Applicant Photo"
                                                             className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover border border-gray-300 hover:border-blue-500 transition-colors cursor-pointer"
                                                         />
@@ -326,13 +328,13 @@ export default function ViewApplicants() {
                                                 <div className="flex-shrink-0">
                                                     <p className="text-xs font-medium text-gray-600 mb-2">Resume:</p>
                                                     <a
-                                                        href={`http://localhost:5000/uploads/${applicant.resume}`}
+                                                        href={`${getBaseUrl()}/uploads/${applicant.resume}`}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-xs sm:text-sm"
                                                         onClick={(e) => {
                                                             e.preventDefault();
-                                                            const url = `http://localhost:5000/uploads/${applicant.resume}`;
+                                                            const url = `${getBaseUrl()}/uploads/${applicant.resume}`;
                                                             console.log('Resume URL:', url);
                                                             console.log('Applicant resume field:', applicant.resume);
                                                             window.open(url, '_blank');

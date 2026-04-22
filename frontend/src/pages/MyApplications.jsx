@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
-import { API_URL } from "../config/api";
-import { AuthContext } from "../context/AuthContext";
+import { API_URL, getBaseUrl } from "../config/api";
+import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
 export default function MyApplications() {
@@ -120,12 +120,13 @@ export default function MyApplications() {
 
     const getResumeUrl = (filePath) => {
         if (!filePath) return null;
+        const baseUrl = getBaseUrl();
         // If path already includes /uploads/, use it directly
         if (filePath.includes('/uploads/')) {
-            return `http://localhost:5000${filePath}`;
+            return `${baseUrl}${filePath}`;
         }
         // Otherwise, assume it's just the filename
-        return `http://localhost:5000/uploads/${filePath}`;
+        return `${baseUrl}/uploads/${filePath}`;
     };
 
     if (authLoading || loading) {

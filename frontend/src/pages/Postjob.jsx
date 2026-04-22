@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import axiosInstance from "../config/axios";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config/api";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
 function Postjob() {

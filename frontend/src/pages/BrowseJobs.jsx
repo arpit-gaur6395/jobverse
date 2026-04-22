@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import JobListings from "../components/Home/JobListings";
 import { useHomeData } from "../components/Home/useHomeData";
+import { API_URL } from "../config/api";
 import { useHomeHandlers } from "../components/Home/useHomeHandlers";
 import { formatPostedDate } from "../components/Home/useJobUtils";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 
 const BrowseJobs = () => {
   const { user } = useContext(AuthContext);
@@ -55,7 +56,7 @@ const BrowseJobs = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/jobs/getjob"
+        `${API_URL}/jobs/getjob`
       );
 
       if (!response.ok) {
