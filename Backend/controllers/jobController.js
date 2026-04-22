@@ -169,25 +169,33 @@ export const applyJob = async (req, res) => {
     let resumeUrl = null;
     let photoUrl = null;
 
+    console.log('Files received:', req.files);
+
     if (req.files?.resume && req.files.resume[0]) {
       try {
         const resumeFile = req.files.resume[0];
+        console.log('Uploading resume:', resumeFile.originalname);
         const filename = `resume_${userId}_${Date.now()}`;
         resumeUrl = await uploadToSupabase(resumeFile, 'resumes', filename);
+        console.log('Resume uploaded successfully:', resumeUrl);
       } catch (error) {
-        console.error('Error uploading resume to Supabase:', error);
+        console.error('Error uploading resume to Supabase:', error.message, error);
       }
     }
 
     if (req.files?.photo && req.files.photo[0]) {
       try {
         const photoFile = req.files.photo[0];
+        console.log('Uploading photo:', photoFile.originalname);
         const filename = `photo_${userId}_${Date.now()}`;
         photoUrl = await uploadToSupabase(photoFile, 'photos', filename);
+        console.log('Photo uploaded successfully:', photoUrl);
       } catch (error) {
-        console.error('Error uploading photo to Supabase:', error);
+        console.error('Error uploading photo to Supabase:', error.message, error);
       }
     }
+
+    console.log('Final URLs - Resume:', resumeUrl, 'Photo:', photoUrl);
 
     // Create new application
     const newApplication = new Application({

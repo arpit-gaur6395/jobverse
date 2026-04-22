@@ -1,10 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
-
 
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
@@ -12,8 +13,6 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
-
-dotenv.config();
 
 const uploadsDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadsDir)) {
