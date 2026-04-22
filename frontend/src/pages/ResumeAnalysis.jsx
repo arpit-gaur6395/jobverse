@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { API_URL } from '../config/api';
+import { ShimmerButton } from '../components/Shimmer';
 
 const ResumeAnalysis = () => {
   const [file, setFile] = useState(null);
