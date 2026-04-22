@@ -3,6 +3,8 @@ import axios from "axios";
 import { API_URL, getBaseUrl } from "../config/api";
 import Footer from "../components/Footer";
 
+import { ShimmerCard } from "../components/Shimmer";
+
 export default function ApplicantsList({ jobId }) {
     const [applicants, setApplicants] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -47,9 +49,10 @@ export default function ApplicantsList({ jobId }) {
             </div>
 
             {loading ? (
-                <div className="text-center py-8 text-gray-600">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                    Loading applicants...
+                <div className="space-y-4 py-8">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <ShimmerCard key={i} />
+                    ))}
                 </div>
             ) : applicants.length === 0 ? (
                 <div className="text-center py-8 text-gray-600 bg-gray-50 rounded-lg">

@@ -7,6 +7,7 @@ import { API_URL } from "../config/api";
 import { useHomeHandlers } from "../components/Home/useHomeHandlers";
 import { formatPostedDate } from "../components/Home/useJobUtils";
 import { AuthContext } from "../context/authContext";
+import { ShimmerJobCard } from "../components/Shimmer";
 
 const BrowseJobs = () => {
   const { user } = useContext(AuthContext);
@@ -182,112 +183,114 @@ const BrowseJobs = () => {
 
       {/* Job Listings */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-flex items-center justify-center w-12 h-12 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mb-4"></div>
-            <p className="text-gray-600">Loading amazing opportunities...</p>
-          </div>
-        ) : filteredJobs.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">No jobs found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria</p>
-            <button
-              onClick={() => { setSearchTitle(''); setSearchCompany(''); setSearchLocation(''); }}
-              className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-            >
-              Clear Filters
-            </button>
-          </div>
-        ) : (
-          <>
-            {/* Results Count */}
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-gray-600">
-                <span className="font-semibold text-gray-800">{filteredJobs.length}</span> jobs found
-              </p>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <span>Sort by:</span>
-                <select className="border border-gray-300 rounded px-3 py-1 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-                  <option>Most Recent</option>
-                  <option>Most Relevant</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Job Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredJobs.map((job) => (
-                <div key={job.id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors">
-                          {job.title}
-                        </h3>
-                        <p className="text-orange-500 font-medium mb-1">{job.company}</p>
-                        <div className="flex items-center text-gray-600 text-sm space-x-4">
-                          <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            {job.location}
-                          </span>
-                          <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            {job.type}
-                          </span>
-                        </div>
-                      </div>
-                      {job.featured && (
-                        <span className="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full font-medium">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                      {job.description}
-                    </p>
-
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-gray-500 text-xs">
-                        Posted {formatPostedDate(job.posted)}
-                      </span>
-                      {job.salary && job.salary !== "Not specified" && (
-                        <span className="text-green-600 font-semibold text-sm">
-                          {job.salary}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => navigate('/login')}
-                        className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:from-orange-600 hover:to-amber-600 transform hover:scale-105"
-                      >
-                        Apply Now
-                      </button>
-                      <button
-                        onClick={() => navigate(`/apply/${job.id}`)}
-                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                      >
-                        View
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        {loading ? (grid gridols-1 md:grid-cols-2 lg:gid-cols-3 gap-68
+        <dl{[1, , 3, , , 6].(() = (
+          i < ShimN"nJebCmrsnkey={j}t-2
+        ))} border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mb-4"></div>
+      <p className="text-gray-600">Loading amazing opportunities...</p>
+    </div>
+  ) : filteredJobs.length === 0 ? (
+    <div className="text-center py-16">
+      <div className="text-6xl mb-4">🔍</div>
+      <h3 className="text-xl font-semibold text-gray-800 mb-2">No jobs found</h3>
+      <p className="text-gray-600 mb-6">Try adjusting your search criteria</p>
+      <button
+        onClick={() => { setSearchTitle(''); setSearchCompany(''); setSearchLocation(''); }}
+        className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+      >
+        Clear Filters
+      </button>
+    </div>
+  ) : (
+    <>
+      {/* Results Count */}
+      <div className="mb-6 flex items-center justify-between">
+        <p className="text-gray-600">
+          <span className="font-semibold text-gray-800">{filteredJobs.length}</span> jobs found
+        </p>
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <span>Sort by:</span>
+          <select className="border border-gray-300 rounded px-3 py-1 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+            <option>Most Recent</option>
+            <option>Most Relevant</option>
+          </select>
+        </div>
       </div>
 
-      <Footer />
-    </div>
+      {/* Job Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredJobs.map((job) => (
+          <div key={job.id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors">
+                    {job.title}
+                  </h3>
+                  <p className="text-orange-500 font-medium mb-1">{job.company}</p>
+                  <div className="flex items-center text-gray-600 text-sm space-x-4">
+                    <span className="flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {job.location}
+                    </span>
+                    <span className="flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      {job.type}
+                    </span>
+                  </div>
+                </div>
+                {job.featured && (
+                  <span className="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full font-medium">
+                    Featured
+                  </span>
+                )}
+              </div>
+
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                {job.description}
+              </p>
+
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-gray-500 text-xs">
+                  Posted {formatPostedDate(job.posted)}
+                </span>
+                {job.salary && job.salary !== "Not specified" && (
+                  <span className="text-green-600 font-semibold text-sm">
+                    {job.salary}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:from-orange-600 hover:to-amber-600 transform hover:scale-105"
+                >
+                  Apply Now
+                </button>
+                <button
+                  onClick={() => navigate(`/apply/${job.id}`)}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  View
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+      </div >
+
+  <Footer />
+    </div >
   );
 };
 

@@ -4,6 +4,8 @@ import axiosInstance from "../config/axios";
 import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
+import { ShimmerJobCard } from "../components/Shimmer";
+
 export default function MyPostedJobs() {
     const { user, loading: authLoading } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -29,15 +31,18 @@ export default function MyPostedJobs() {
         }
     }, [user, authLoading, navigate]);
 
-    // Show loading spinner while checking authentication
+    // Show shimmer while checking authentication
     if (authLoading) {
         return (
-            <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center" style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80')"
+            <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
+                backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920')"
             }}>
-                <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Loading...</p>
+                <div className="w-full max-w-4xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <ShimmerJobCard key={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -116,10 +121,13 @@ export default function MyPostedJobs() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Loading your posted jobs...</p>
+            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 p-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <ShimmerJobCard key={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

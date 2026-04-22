@@ -5,6 +5,8 @@ import { API_URL } from "../config/api";
 import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
+import { ShimmerCard } from "../components/Shimmer";
+
 function Postjob() {
     const navigate = useNavigate();
     const { user, loading } = useContext(AuthContext);
@@ -25,15 +27,18 @@ function Postjob() {
         }
     }, [user, loading, navigate]);
 
-    // Show loading spinner while checking authentication
+    // Show shimmer while checking authentication
     if (loading) {
         return (
-            <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center" style={{
+            <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80')"
             }}>
-                <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Loading...</p>
+                <div className="w-full max-w-2xl">
+                    <div className="space-y-4 py-8">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <ShimmerCard key={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

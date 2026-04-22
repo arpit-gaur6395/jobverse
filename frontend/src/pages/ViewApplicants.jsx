@@ -5,6 +5,8 @@ import axiosInstance from "../config/axios";
 import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
+import { ShimmerJobCard, ShimmerCard } from "../components/Shimmer";
+
 export default function ViewApplicants() {
     const { jobId } = useParams();
     const { user, loading: authLoading } = useContext(AuthContext);
@@ -173,10 +175,13 @@ export default function ViewApplicants() {
 
     if (authLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Checking authentication...</p>
+            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 p-4 flex items-center justify-center">
+                <div className="w-full max-w-4xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <ShimmerJobCard key={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -184,10 +189,13 @@ export default function ViewApplicants() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Loading applicants...</p>
+            <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 p-4">
+                <div className="max-w-4xl mx-auto">
+                    <div className="space-y-4 py-8">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <ShimmerCard key={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

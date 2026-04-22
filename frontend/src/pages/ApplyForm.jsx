@@ -3,6 +3,8 @@ import { AuthContext } from "../context/authContext";
 import axiosInstance from "../config/axios";
 import { API_URL } from "../config/api";
 
+import { ShimmerButton } from "../components/Shimmer";
+
 export default function ApplyForm({ job, onClose }) {
     const { user } = useContext(AuthContext);
     const [applicationData, setApplicationData] = useState({
@@ -178,7 +180,19 @@ export default function ApplyForm({ job, onClose }) {
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                         />
                         <div className="flex gap-4 pt-4">
-                            <button type="submit" className="flex-1 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-200">Submit</button>
+                            <button type="submit" disabled={loading} className="flex-1 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-200 relative overflow-hidden">
+                                {loading ? (
+                                    <div className="w-full h-full absolute inset-0">
+                                        <ShimmerButton />
+                                    </div>
+                                ) : null}
+                                <span className={loading ? 'opacity-0' : ''}>Submit</span>
+                                {loading && (
+                                    <span className="absolute inset-0 flex items-center justify-center text-white">
+                                        Submitting...
+                                    </span>
+                                )}
+                            </button>
                             <button type="button" onClick={onClose} className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors duration-200">Cancel</button>
                         </div>
                     </form>

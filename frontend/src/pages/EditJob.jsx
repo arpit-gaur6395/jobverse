@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
 import Footer from "../components/Footer";
+import { ShimmerCard } from "../components/Shimmer";
 
 export default function EditJob() {
   const { id } = useParams();
@@ -65,12 +66,13 @@ export default function EditJob() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl mb-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-gray-700 p-4 flex items-center justify-center">
+        <div className="w-full max-w-2xl">
+          <div className="space-y-4 py-8">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <ShimmerCard key={i} />
+            ))}
           </div>
-          <p className="text-white text-lg">Loading job details...</p>
         </div>
       </div>
     );

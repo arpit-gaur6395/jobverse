@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axiosInstance from '../config/axios';
 import Footer from '../components/Footer';
 
+import { ShimmerCard } from "../components/Shimmer";
+
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -295,9 +297,13 @@ const Companies = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h3 className="text-xl text-gray-600">Loading companies...</h3>
+      <div className="min-h-screen bg-gray-50 p-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <ShimmerCard key={i} />
+            ))}
+          </div>
         </div>
       </div>
     );

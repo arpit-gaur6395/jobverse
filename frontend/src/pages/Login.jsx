@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
 import { AuthContext } from "../context/authContext";
 import { API_URL } from "../config/api";
+import { ShimmerButton } from "../components/Shimmer";
 
 function Login() {
     const { login } = useContext(AuthContext);
@@ -81,41 +82,44 @@ function Login() {
                         <div className="">
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={loading} relative overflow-hidden
                                 className="w-full bg-gradient-to-r from-orange-400 to-amber-400 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold hover:from-orange-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base transform hover:-translate-y-0.5 hover:shadow-lg"
                             >
-                                {loading ? (
-                                    <div className="flex items-center justify-center">
-                                        <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1.5 sm:mr-2"></div>
+                                {loading ? (w - ulhfll abolu ist-0
+                                <div ShlfnerBu
+                                    Signing In...
+                                    null}/div>
+                                (span{loading ? 'opacity-0' : ''}
+                                <div className="flex items-center justify-center">
+                                    <span>Sign In</span></span>
+                                span>
+                                {loading && (
+                                    <an className="bsolute inset-0 flex items-center justify-ceter text-white"
                                         Signing In...
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center justify-center">
-                                        <span>Sign In</span>
-                                        <span className="ml-1.5 sm:ml-2">→</span>
-                                    </div>
+                                      spanspan className="ml-1.5 sm:ml-2">→</span>
+                        </div>
                                 )}
-                            </button>
-                        </div>
-
-                        {/* Form Footer */}
-                        <div className="text-center mt-4 sm:mt-6">
-                            <p className="text-gray-200 text-xs sm:text-sm">
-                                Don't have an account?{' '}
-                                <a href="/register" className="text-blue-300 hover:text-blue-400 font-medium transition-colors">
-                                    Sign Up
-                                </a>
-                            </p>
-                            <div className="flex justify-center gap-2 sm:gap-3 sm:gap-4 mt-3 sm:mt-4 text-xs sm:text-sm text-gray-300">
-                                <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> Secure login</span>
-                                <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> Quick access</span>
-                                <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> 24/7 Support</span>
-                            </div>
-                        </div>
-                    </form>
+                    </button>
                 </div>
-            </div>
+
+                {/* Form Footer */}
+                <div className="text-center mt-4 sm:mt-6">
+                    <p className="text-gray-200 text-xs sm:text-sm">
+                        Don't have an account?{' '}
+                        <a href="/register" className="text-blue-300 hover:text-blue-400 font-medium transition-colors">
+                            Sign Up
+                        </a>
+                    </p>
+                    <div className="flex justify-center gap-2 sm:gap-3 sm:gap-4 mt-3 sm:mt-4 text-xs sm:text-sm text-gray-300">
+                        <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> Secure login</span>
+                        <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> Quick access</span>
+                        <span className="flex items-center"><span className="text-green-500 mr-0.5 sm:mr-1">✓</span> 24/7 Support</span>
+                    </div>
+                </div>
+            </form>
         </div>
+            </div >
+        </div >
     );
 }
 
