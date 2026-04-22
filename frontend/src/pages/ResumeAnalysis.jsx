@@ -30,6 +30,7 @@ const ResumeAnalysis = () => {
 
     const formData = new FormData();
     formData.append('resume', file);
+    formData.append('provider', 'groq');
 
     try {
       const response = await fetch(`${API_URL}/analyze-resume`, {
@@ -104,28 +105,34 @@ const ResumeAnalysis = () => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Analysis Results</h2>
             <div className="space-y-4">
               <div>
-                <h3 className="font-medium text-gray-700">Score</h3>
-                <p className="text-2xl font-bold text-blue-600">{analysis.score || 'N/A'}/100</p>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-700">Strengths</h3>
-                <ul className="list-disc list-inside text-gray-600">
-                  {analysis.strengths?.map((strength, index) => (
-                    <li key={index}>{strength}</li>
+                <h3 className="font-medium text-gray-700">Skills Found</h3>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {analysis.skills?.map((skill, index) => (
+                    <span key={index} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                      {skill}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
               <div>
-                <h3 className="font-medium text-gray-700">Areas for Improvement</h3>
-                <ul className="list-disc list-inside text-gray-600">
-                  {analysis.improvements?.map((improvement, index) => (
-                    <li key={index}>{improvement}</li>
-                  ))}
-                </ul>
+                <h3 className="font-medium text-gray-700">Recommended Jobs ({analysis.recommendedJobs?.length || 0})</h3>
+                {analysis.recommendedJobs && analysis.recommendedJobs.length > 0 ? (
+                  <div className="space-y-2 mt-2">
+                    {analysis.recommendedJobs.slice(0, 5).map((job, index) => (
+                      <div key={index} className="p-3 bg-gray-50 rounded-lg">
+                        <p className="font-medium text-gray-900">{job.job || job.title}</p>
+                        <p className="text-sm text-gray-600">{job.company}</p>
+                        <p className="text-sm text-green-600">Match: {job.matchScore}%</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 mt-2">No matching jobs found</p>
+                )}
               </div>
               <div>
-                <h3 className="font-medium text-gray-700">Recommendations</h3>
-                <p className="text-gray-600">{analysis.recommendations || 'N/A'}</p>
+                <h3 className="font-medium text-gray-700">Provider</h3>
+                <p className="text-gray-600">{analysis.provider || 'local'}</p>
               </div>
             </div>
           </div>
