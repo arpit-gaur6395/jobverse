@@ -37,6 +37,9 @@ const upload = multer({
 // Test all AI providers endpoint
 router.get('/test-providers', testAIProviders);
 
+// Root endpoint for /api/analyze-resume
+router.post('/', upload.single('resume'), analyzeResume);
+
 // Analyze resume endpoint
 router.post('/analyze', upload.single('resume'), analyzeResume);
 
