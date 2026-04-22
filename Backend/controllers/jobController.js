@@ -1,5 +1,7 @@
 import Job from "../models/Job.js";
 import Application from "../models/Application.js";
+import { uploadToSupabase, deleteFromSupabase } from "../config/supabase.js";
+import path from "path";
 
 // ========================================
 // 📋 JOB CONTROLLERS
@@ -163,13 +165,29 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    // Handle file uploads
-    const resumeFile = req.files?.resume ? req.files.resume[0] : null;
-    const photoFile = req.files?.photo ? req.files.photo[0] : null;
+    // Handle file uploads to Supabase
+    let resumeUrl = null;
+    let photoUrl = null;
 
-    // Extract clean filenames
-    const resumePath = resumeFile ? resumeFile.filename.replace(/^.*[\\\/]/, '') : null;
-    const photoPath = photoFile ? photoFile.filename.replace(/^.*[\\\/]/, '') : null;
+    if (req.files?.resume && req.files.resume[0]) {
+      try {
+        const resumeFile = req.files.resume[0];
+        const filename = `resume_${userId}_${Date.now()}`;
+        resumeUrl = await uploadToSupabase(resumeFile, 'resumes', filename);
+      } catch (error) {
+        console.error('Error uploading resume to Supabase:', error);
+      }
+    }
+
+    if (req.files?.photo && req.files.photo[0]) {
+      try {
+        const photoFile = req.files.photo[0];
+        const filename = `photo_${userId}_${Date.now()}`;
+        photoUrl = await uploadToSupabase(photoFile, 'photos', filename);
+      } catch (error) {
+        console.error('Error uploading photo to Supabase:', error);
+      }
+    }
 
     // Create new application
     const newApplication = new Application({
@@ -177,8 +195,8 @@ export const applyJob = async (req, res) => {
       userId: userId,
       name: userName,
       email: userEmail,
-      resume: resumePath,
-      photo: photoPath,
+      resume: resumeUrl,
+      photo: photoUrl,
     });
 
     await newApplication.save();
@@ -241,6 +259,14 @@ export const deleteApplicant = async (req, res) => {
 
     if (!deletedApplicant) {
       return res.status(404).json({ message: "Applicant not found" });
+    }
+
+    // Delete files from Supabase
+    if (deletedApplicant.resume) {
+      await deleteFromSupabase(deletedApplicant.resume);
+    }
+    if (deletedApplicant.photo) {
+      await deleteFromSupabase(deletedApplicant.photo);
     }
 
     res.json({ message: "Applicant deleted successfully" });
@@ -413,6 +439,14 @@ export const deleteApplication = async (req, res) => {
       return res.status(403).json({
         message: "You can only delete applications for your own jobs"
       });
+    }
+
+    // Delete files from Supabase
+    if (application.resume) {
+      await deleteFromSupabase(application.resume);
+    }
+    if (application.photo) {
+      await deleteFromSupabase(application.photo);
     }
 
     // Delete the application
