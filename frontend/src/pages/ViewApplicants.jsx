@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_URL, getBaseUrl } from '../config/api';
+import { API_URL, getBaseUrl, getFileUrl } from '../config/api';
 import axiosInstance from "../config/axios";
 import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
@@ -337,13 +337,13 @@ export default function ViewApplicants() {
                                                 <div className="flex-shrink-0">
                                                     <p className="text-xs font-medium text-gray-600 mb-2">Resume:</p>
                                                     <a
-                                                        href={`${getBaseUrl()}/uploads/${applicant.resume}`}
+                                                        href={getFileUrl(applicant.resume)}
                                                         target="_blank"
                                                         rel="noreferrer"
                                                         className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-xs sm:text-sm"
                                                         onClick={(e) => {
                                                             e.preventDefault();
-                                                            const url = `${getBaseUrl()}/uploads/${applicant.resume}`;
+                                                            const url = getFileUrl(applicant.resume);
                                                             console.log('Resume URL:', url);
                                                             console.log('Applicant resume field:', applicant.resume);
                                                             window.open(url, '_blank');

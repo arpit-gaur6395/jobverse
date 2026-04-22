@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
-import { API_URL, getBaseUrl } from "../config/api";
+import { API_URL, getBaseUrl, getFileUrl } from "../config/api";
 import { AuthContext } from "../context/authContext";
 import Footer from "../components/Footer";
 
@@ -131,17 +131,6 @@ export default function EmployerApplications() {
             default:
                 return "bg-gray-100 text-gray-800 border-gray-200";
         }
-    };
-
-    const getResumeUrl = (filePath) => {
-        if (!filePath) return null;
-        const baseUrl = getBaseUrl();
-        // If path already includes /uploads/, use it directly
-        if (filePath.includes('/uploads/')) {
-            return `${baseUrl}${filePath}`;
-        }
-        // Otherwise, assume it's just the filename
-        return `${baseUrl}/uploads/${filePath}`;
     };
 
     // Group applications by job
@@ -482,7 +471,7 @@ export default function EmployerApplications() {
                                                                                 )}
                                                                                 {application.photo && (
                                                                                     <a
-                                                                                        href={getResumeUrl(application.photo)}
+                                                                                        href={getFileUrl(application.photo)}
                                                                                         target="_blank"
                                                                                         rel="noreferrer"
                                                                                         className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
@@ -493,7 +482,7 @@ export default function EmployerApplications() {
                                                                             </div>
 
                                                                             {/* Status Update Buttons */}
-                                                                            <div className="flex flex-wrap gap-2">
+                                                                            <div className="flex Filwrap gap-2">
                                                                                 {(!application.status || application.status === 'pending') && (
                                                                                     <>
                                                                                         <button

@@ -37,11 +37,8 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
-});
+// Configure multer for file uploads (memory storage for Supabase)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
