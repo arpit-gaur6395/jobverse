@@ -1,26 +1,11 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-// ========================================
-// 🔐 AUTHENTICATION CONTROLLERS
-// ========================================
-
-/**
- * Validate email format
- * @param {string} email - Email to validate
- * @returns {boolean} - True if valid email
- */
 const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 };
 
-/**
- * Validate password strength
- * @param {string} password - Password to validate
- * @returns {Array} - Array of error messages
- */
 const validatePassword = (password) => {
     const errors = [];
 
@@ -32,18 +17,16 @@ const validatePassword = (password) => {
         errors.push("Password must be less than 128 characters");
     }
 
-    // Check character types
     let charTypeCount = 0;
-    if (/[A-Z]/.test(password)) charTypeCount++; // Uppercase
-    if (/[a-z]/.test(password)) charTypeCount++; // Lowercase
-    if (/\d/.test(password)) charTypeCount++; // Numbers
-    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) charTypeCount++; // Special
+    if (/[A-Z]/.test(password)) charTypeCount++;
+    if (/[a-z]/.test(password)) charTypeCount++;
+    if (/\d/.test(password)) charTypeCount++;
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) charTypeCount++;
 
     if (charTypeCount < 2) {
         errors.push("Password must contain at least 2 of the following: uppercase letters, lowercase letters, numbers, or special characters");
     }
 
-    // Check common passwords
     const commonPasswords = ['password', '12345678', 'qwerty123', 'admin123', 'password123', '123456789', 'abc123'];
     if (commonPasswords.includes(password.toLowerCase())) {
         errors.push("Password is too common. Please choose a more secure password");
@@ -52,23 +35,16 @@ const validatePassword = (password) => {
     return errors;
 };
 
-/**
- * Register a new user
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
 export const register = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
 
-        // Basic field validation
         if (!name || !email || !password || !role) {
             return res.status(400).json({
                 message: "All fields are required"
             });
         }
 
-        // Name validation
         if (name.length < 2 || name.length > 50) {
             return res.status(400).json({
                 message: "Name must be between 2 and 50 characters"
@@ -91,7 +67,6 @@ export const register = async (req, res) => {
             });
         }
 
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
@@ -99,7 +74,6 @@ export const register = async (req, res) => {
             });
         }
 
-        // Hash password and create user
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
             name,
@@ -135,11 +109,6 @@ export const register = async (req, res) => {
     }
 };
 
-/**
- * Login user
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -158,7 +127,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // Password validation (basic check for empty string)
         if (password.trim() === '') {
             return res.status(400).json({
                 message: "Password cannot be empty"
@@ -173,7 +141,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // Verify password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({
@@ -206,11 +173,6 @@ export const login = async (req, res) => {
     }
 };
 
-/**
- * Verify JWT token and return user data
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- */
 export const verifyToken = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
@@ -222,7 +184,6 @@ export const verifyToken = async (req, res) => {
             });
         }
 
-        // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Find user
@@ -235,6 +196,7 @@ export const verifyToken = async (req, res) => {
         }
 
         res.json({
+            success: true,
             message: "Token is valid",
             user: {
                 id: user._id,

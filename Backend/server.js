@@ -11,19 +11,18 @@ import jobRoutes from "./routes/jobRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import statsRoutes from "./routes/statsRoutes.js";
+import resumeRoutes from "./routes/resumeRoutes.js";
 
 dotenv.config();
 
-// Create uploads directory if it doesn't exist
 const uploadsDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Set a default JWT_SECRET for development if not provided
 if (!process.env.JWT_SECRET) {
-    process.env.JWT_SECRET = "development_jwt_secret_key_please_change_in_production_1234567890abcdef";
-    console.log("Warning: Using default JWT_SECRET for development. Please set JWT_SECRET in production.");
+    console.error("ERROR: JWT_SECRET is not set in environment variables");
+    process.exit(1);
 }
 
 const app = express();
@@ -38,9 +37,10 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/companies", companyRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/resume", resumeRoutes);
 
-mongoose.connect("mongodb://127.0.0.1:27017/JP")
+mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/JP")
     .then(() => console.log("Database connected"))
     .catch((err) => console.log("DB connection failed:", err));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
