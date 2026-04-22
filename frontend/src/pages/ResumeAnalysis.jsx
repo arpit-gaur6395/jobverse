@@ -39,13 +39,16 @@ const ResumeAnalysis = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Analysis failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Analysis failed');
       }
 
       const data = await response.json();
-      setAnalysis(data);
+      console.log('Resume analysis response:', data);
+      setAnalysis(data.data || data);
     } catch (err) {
-      setError('Failed to analyze resume. Please try again.');
+      console.error('Resume analysis error:', err);
+      setError(`Failed to analyze resume: ${err.message}`);
     } finally {
       setLoading(false);
     }
