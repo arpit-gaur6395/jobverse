@@ -4,6 +4,7 @@ import { API_URL } from '../config/api';
 import { ShimmerButton } from '../components/Shimmer';
 import { AuthContext } from '../context/authContext';
 import { useContext } from 'react';
+import ApplyForm from './ApplyForm';
 
 const ResumeAnalysis = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const ResumeAnalysis = () => {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedJob, setSelectedJob] = useState(null);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -160,7 +162,7 @@ const ResumeAnalysis = () => {
                           <p className="text-green-600 font-semibold text-sm mb-3">{job.salary}</p>
                         )}
                         <button
-                          onClick={() => navigate(`/apply/${job._id}`)}
+                          onClick={() => setSelectedJob(job)}
                           className="w-full bg-gradient-to-r from-orange-400 to-amber-400 text-white py-2 px-4 rounded-lg font-medium hover:from-orange-500 hover:to-amber-500 transition-all text-sm"
                         >
                           Apply Now
@@ -180,6 +182,7 @@ const ResumeAnalysis = () => {
           </div>
         )}
       </div>
+      {selectedJob && <ApplyForm job={selectedJob} onClose={() => setSelectedJob(null)} />}
     </div>
   );
 };
