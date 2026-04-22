@@ -45,7 +45,8 @@ export const useHomeData = () => {
         const fetchJobs = async () => {
             try {
                 const res = await axiosInstance.get('/jobs/getjob');
-                const reversed = res.data.reverse();
+                const jobsData = Array.isArray(res.data.jobs) ? res.data.jobs : [];
+                const reversed = jobsData.reverse();
                 // Filter to only include jobs that have a company (posted by companies)
                 const companyJobs = reversed.filter(job => job.company && job.company.trim() !== '');
                 setJobs(companyJobs);
