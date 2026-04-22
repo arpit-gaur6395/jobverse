@@ -30,14 +30,35 @@ export const postJob = async (req, res) => {
 };
 
 /**
- * Get all jobs
+ * Get all jobs with pagination
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
 export const getJob = async (req, res) => {
   try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
-    res.status(200).json(jobs);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const jobs = await Job.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Job.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+
+    res.status(200).json({
+      jobs,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalJobs: total,
+        jobsPerPage: limit,
+        hasNext: page < totalPages,
+        hasPrev: page > 1
+      }
+    });
   } catch (err) {
     console.error("Error fetching jobs:", err);
     res.status(500).json({

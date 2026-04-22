@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { API_URL } from '../config/api';
 
 const Jobs = () => {
   const [searchParams] = useSearchParams();
@@ -12,6 +13,8 @@ const Jobs = () => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState(null);
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -22,19 +25,41 @@ const Jobs = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    if (currentPage === 1) {
+      fetchJobs(currentPage, false);
+    } else {
+      fetchJobs(currentPage, true);
+    }
+  }, [currentPage]);
 
-  const fetchJobs = async () => {
-    setLoading(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (loading || !pagination?.hasNext) return;
+
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.body.offsetHeight - 500;
+
+      if (scrollPosition >= threshold) {
+        setCurrentPage(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, pagination]);
+
+  const fetchJobs = async (page = 1, append = false) => {
+    if (append) {
+      setLoading(true);
+    }
     setError(null);
     try {
-      const response = await fetch('http://localhost:5000/api/jobs/getjob');
+      const response = await fetch(`${API_URL}/jobs/getjob?page=${page}&limit=15`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      const formattedJobs = data.map(job => ({
+      const formattedJobs = data.jobs.map(job => ({
         id: job._id,
         title: job.job,
         company: job.company,
@@ -51,8 +76,15 @@ const Jobs = () => {
         remote: job.remote || false,
         benefits: job.benefits || ['Health Insurance', '401k', 'Paid Time Off']
       }));
-      setJobs(formattedJobs);
-      setFilteredJobs(formattedJobs);
+
+      if (append) {
+        setJobs(prevJobs => [...prevJobs, ...formattedJobs]);
+        setFilteredJobs(prevJobs => [...prevJobs, ...formattedJobs]);
+      } else {
+        setJobs(formattedJobs);
+        setFilteredJobs(formattedJobs);
+      }
+      setPagination(data.pagination);
     } catch (error) {
       console.error('Error fetching jobs:', error);
       setError('Failed to fetch jobs. Please try again later.');
@@ -141,6 +173,7 @@ const Jobs = () => {
     setFilteredJobs(filtered);
   }, [searchTerm, selectedCategory, selectedType, selectedLocation, jobs]);
 
+
   return (
     <div className="w-full p-8 bg-gray-50 min-h-[calc(100vh-200px)]">
       <div className="text-center mb-12">
@@ -225,37 +258,46 @@ const Jobs = () => {
               <p className="text-gray-500">Try adjusting your filters or search terms</p>
             </div>
           ) : (
-            filteredJobs.map(job => (
-              <div key={job.id} className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-sm transition-all duration-300 hover:transform hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-between gap-8 flex-1 min-w-[350px] max-w-[500px] border border-gray-100">
-                <div className="flex-1 flex flex-col gap-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 leading-tight mb-1 tracking-tight">{job.title}</h3>
-                    <p className="text-gray-600 text-sm font-medium mb-0">🏢 {job.company}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-4 items-center">
-                    <span className="font-semibold text-green-600 text-sm bg-green-50 px-3 py-1 rounded-md border border-green-200">💰 {job.salary}</span>
-                    <span className="text-gray-600 text-sm font-medium">📍 {job.location}</span>
-                    <span className="text-gray-600 text-sm font-medium">💼 {job.type}</span>
-                    {job.remote && <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-md border border-green-200">🏠 Remote</span>}
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-end gap-4">
-                  <div className="flex flex-wrap gap-2 items-center justify-end">
-                    <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md border border-blue-200">📁 {job.category}</span>
-                    {job.experience !== 'Not specified' && <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-md border border-yellow-200">⭐ {job.experience}</span>}
-                    <span className="text-gray-400 text-xs font-normal">📅 {job.posted}</span>
+            <>
+              {filteredJobs.map(job => (
+                <div key={job.id} className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-sm transition-all duration-300 hover:transform hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-between gap-8 flex-1 min-w-[350px] max-w-[500px] border border-gray-100">
+                  <div className="flex-1 flex flex-col gap-3">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 leading-tight mb-1 tracking-tight">{job.title}</h3>
+                      <p className="text-gray-600 text-sm font-medium mb-0">🏢 {job.company}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-4 items-center">
+                      <span className="font-semibold text-green-600 text-sm bg-green-50 px-3 py-1 rounded-md border border-green-200">💰 {job.salary}</span>
+                      <span className="text-gray-600 text-sm font-medium">📍 {job.location}</span>
+                      <span className="text-gray-600 text-sm font-medium">💼 {job.type}</span>
+                      {job.remote && <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-md border border-green-200">🏠 Remote</span>}
+                    </div>
                   </div>
 
-                  <div className="flex gap-2 m-0 p-0 border-none">
-                    <Link to={`/apply/${job.id}`} className="bg-blue-600 text-white px-4 py-2 rounded-md text-decoration-none font-semibold text-sm text-center transition-all duration-200 border border-blue-600 hover:bg-blue-700 hover:border-blue-700 hover:transform hover:-translate-y-0.5 whitespace-nowrap">Apply Now</Link>
-                    <button onClick={() => handleSaveJob(job)} className="bg-white border border-gray-300 text-gray-600 px-3 py-2 rounded-md cursor-pointer font-medium text-sm transition-all duration-200 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-700 whitespace-nowrap">
-                      {JSON.parse(localStorage.getItem('savedJobs') || '[]').some(savedJob => savedJob.id === job.id) ? '💾 Saved' : '💾 Save'}
-                    </button>
+                  <div className="flex flex-col items-end gap-4">
+                    <div className="flex flex-wrap gap-2 items-center justify-end">
+                      <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md border border-blue-200">📁 {job.category}</span>
+                      {job.experience !== 'Not specified' && <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-md border border-yellow-200">⭐ {job.experience}</span>}
+                      <span className="text-gray-400 text-xs font-normal">📅 {job.posted}</span>
+                    </div>
+
+                    <div className="flex gap-2 m-0 p-0 border-none">
+                      <Link to={`/apply/${job.id}`} className="bg-blue-600 text-white px-4 py-2 rounded-md text-decoration-none font-semibold text-sm text-center transition-all duration-200 border border-blue-600 hover:bg-blue-700 hover:border-blue-700 hover:transform hover:-translate-y-0.5 whitespace-nowrap">Apply Now</Link>
+                      <button onClick={() => handleSaveJob(job)} className="bg-white border border-gray-300 text-gray-600 px-3 py-2 rounded-md cursor-pointer font-medium text-sm transition-all duration-200 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-700 whitespace-nowrap">
+                        {JSON.parse(localStorage.getItem('savedJobs') || '[]').some(savedJob => savedJob.id === job.id) ? '💾 Saved' : '💾 Save'}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ))}
+
+              {/* Loading indicator for infinite scroll */}
+              {loading && currentPage > 1 && (
+                <div className="w-full text-center py-8">
+                  <h3 className="text-lg text-gray-600">Loading more jobs...</h3>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
