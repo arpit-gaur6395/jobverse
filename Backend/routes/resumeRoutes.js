@@ -40,6 +40,9 @@ router.get('/test-providers', testAIProviders);
 // Analyze resume endpoint
 router.post('/analyze', upload.single('resume'), analyzeResume);
 
+// Alias for analyze-resume to match frontend
+router.post('/analyze-resume', upload.single('resume'), analyzeResume);
+
 // Get analysis status endpoint
 router.get('/status', getAnalysisStatus);
 

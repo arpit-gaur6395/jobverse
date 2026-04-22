@@ -38,6 +38,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/companies", companyRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/analyze-resume", resumeRoutes);
 
 mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/JP")
     .then(() => console.log("Database connected"))
