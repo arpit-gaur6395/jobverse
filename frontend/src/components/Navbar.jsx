@@ -13,10 +13,6 @@ import { useAppSelector } from "../store/hooks";
  */
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
-  const reduxUser = useAppSelector(state => state.auth.user);
-
-  // Test Redux - log to console
-  console.log('Redux Test - Auth State:', reduxUser);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
