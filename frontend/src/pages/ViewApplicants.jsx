@@ -35,7 +35,8 @@ export default function ViewApplicants() {
     const fetchJobDetails = async () => {
         try {
             const response = await axiosInstance.get(`/jobs/my-jobs`);
-            const userJob = response.data.find(j => j._id === jobId);
+            const jobsData = Array.isArray(response.data) ? response.data : [];
+            const userJob = jobsData.find(j => j._id === jobId);
             if (userJob) {
                 setJob(userJob);
             } else {

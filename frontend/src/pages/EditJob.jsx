@@ -23,7 +23,8 @@ export default function EditJob() {
     const fetchJob = async () => {
       try {
         const res = await axiosInstance.get("/jobs/getjob");
-        const job = res.data.find(j => j._id === id);
+        const jobsData = Array.isArray(res.data.jobs) ? res.data.jobs : [];
+        const job = jobsData.find(j => j._id === id);
         if (job) {
           setFormData({
             job: job.job || job.title,
