@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config/api';
 import { ShimmerButton } from '../components/Shimmer';
+import { AuthContext } from '../context/authContext';
+import { useContext } from 'react';
 
 const ResumeAnalysis = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [file, setFile] = useState(null);
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -120,12 +125,46 @@ const ResumeAnalysis = () => {
               <div>
                 <h3 className="font-medium text-gray-700">Recommended Jobs ({analysis.recommendedJobs?.length || 0})</h3>
                 {analysis.recommendedJobs && analysis.recommendedJobs.length > 0 ? (
-                  <div className="space-y-2 mt-2">
-                    {analysis.recommendedJobs.slice(0, 5).map((job, index) => (
-                      <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                        <p className="font-medium text-gray-900">{job.job || job.title}</p>
-                        <p className="text-sm text-gray-600">{job.company}</p>
-                        <p className="text-sm text-green-600">Match: {job.matchScore}%</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    {analysis.recommendedJobs.slice(0, 6).map((job, index) => (
+                      <div key={index} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all p-5">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex-1">
+                            <h4 className="text-lg font-bold text-gray-800 mb-1">{job.job || job.title}</h4>
+                            <p className="text-orange-500 font-medium text-sm">{job.company}</p>
+                          </div>
+                          <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
+                            {job.matchScore}% Match
+                          </span>
+                        </div>
+                        <div className="flex items-center text-gray-600 text-sm space-x-3 mb-3">
+                          {job.location && (
+                            <span className="flex items-center">
+                              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              {job.location}
+                            </span>
+                          )}
+                          {job.type && (
+                            <span className="flex items-center">
+                              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              {job.type}
+                            </span>
+                          )}
+                        </div>
+                        {job.salary && job.salary !== "Not specified" && (
+                          <p className="text-green-600 font-semibold text-sm mb-3">{job.salary}</p>
+                        )}
+                        <button
+                          onClick={() => navigate(`/apply/${job._id}`)}
+                          className="w-full bg-gradient-to-r from-orange-400 to-amber-400 text-white py-2 px-4 rounded-lg font-medium hover:from-orange-500 hover:to-amber-500 transition-all text-sm"
+                        >
+                          Apply Now
+                        </button>
                       </div>
                     ))}
                   </div>
