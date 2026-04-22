@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ApplicantsList from "../../pages/ApplicantsList";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 
-const JobListings = ({ id, filteredJobs, user, navigate, setSelectedJob, handleDelete, showApplicants, setShowApplicants, formatPostedDate, searchCompany }) => {
+const JobListings = ({ id, filteredJobs, user, navigate, setSelectedJob, formatPostedDate, searchCompany }) => {
     const [selectedJobForDetails, setSelectedJobForDetails] = useState(null);
     const [applicationStatuses, setApplicationStatuses] = useState({});
 
@@ -96,39 +95,10 @@ const JobListings = ({ id, filteredJobs, user, navigate, setSelectedJob, handleD
                                     Applied
                                 </div>
                             )}
-
-                            {user?.role === "employer" && (
-                                <>
-                                    <button
-                                        className="px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg sm:rounded-xl font-medium hover:bg-gray-200 transition-all duration-300 text-xs sm:text-sm"
-                                        onClick={() => navigate(`/edit/${job._id}`)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 bg-red-100 text-red-700 rounded-lg sm:rounded-xl font-medium hover:bg-red-200 transition-all duration-300 text-xs sm:text-sm"
-                                        onClick={() => handleDelete(job._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg sm:rounded-xl font-medium hover:bg-gray-200 transition-all duration-300 text-xs sm:text-sm"
-                                        onClick={() => setShowApplicants(showApplicants === job._id ? null : job._id)}
-                                    >
-                                        {showApplicants === job._id ? "Hide" : "View"}
-                                    </button>
-                                </>
-                            )}
                         </div>
                     </div>
                 ))}
             </div>
-
-            {showApplicants && (
-                <div className="mt-4 sm:mt-6 lg:mt-8 bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 lg:p-6 border border-gray-100">
-                    <ApplicantsList jobId={showApplicants} />
-                </div>
-            )}
 
             {/* Job Details Modal */}
             {selectedJobForDetails && (
@@ -228,17 +198,15 @@ const JobListings = ({ id, filteredJobs, user, navigate, setSelectedJob, handleD
                                     <button
                                         className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg flex-1 justify-center"
                                         onClick={() => {
-                                            if (!user || user.role !== "seeker") {
-                                                navigate("/login");
-                                            } else {
-                                                setSelectedJob(selectedJobForDetails);
-                                                closeDetailsModal();
-                                            }
+                                            setSelectedJob(selectedJobForDetails);
+                                            closeDetailsModal();
                                         }}
                                     >
                                         Apply Now
                                     </button>
                                 )
+                            ) : user?.role === "employer" ? (
+                                null
                             ) : (
                                 <button
                                     className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg flex-1 justify-center"

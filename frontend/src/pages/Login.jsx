@@ -31,7 +31,7 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
+        <div className="mt-7 min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
             backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1920')"
         }}>
             {/* Modern Form Section */}

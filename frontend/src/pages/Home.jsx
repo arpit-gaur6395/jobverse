@@ -32,8 +32,6 @@ function Home() {
         setSearchLocation,
         selectedJob,
         setSelectedJob,
-        showApplicants,
-        setShowApplicants,
         activeTab,
         setActiveTab,
         categories,
@@ -42,7 +40,7 @@ function Home() {
         setFilteredJobs
     } = useHomeData();
 
-    const { handleSearch, handleCategoryFilter, handleDelete } = useHomeHandlers(
+    const { handleSearch, handleCategoryFilter } = useHomeHandlers(
         jobs,
         setJobs,
         filteredJobs,
@@ -88,9 +86,6 @@ function Home() {
                 user={user}
                 navigate={navigate}
                 setSelectedJob={setSelectedJob}
-                handleDelete={handleDelete}
-                showApplicants={showApplicants}
-                setShowApplicants={setShowApplicants}
                 formatPostedDate={formatPostedDate}
                 searchCompany={searchCompany}
             />

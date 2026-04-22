@@ -8,7 +8,7 @@ const CategoriesSection = ({ categories, activeTab, handleCategoryFilter }) => {
                 {categories.map((category, index) => (
                     <div
                         key={index}
-                        className={`p-3 sm:p-4 px-2 sm:px-3 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl border-2 border-gray-200 cursor-pointer transition-all duration-300 text-center w-full sm:w-32 h-16 sm:h-20 flex flex-col justify-center items-center hover:transform hover:-translate-y-2 hover:shadow-xl hover:border-amber-400 ${activeTab === category.name ? 'bg-gradient-to-br from-blue-500 to-blue-700 border-blue-500 text-white transform -translate-y-1 shadow-lg' : ''}`}
+                        className={`p-3 sm:p-4 px-2 sm:px-3 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl border-2 border-gray-200 cursor-pointer transition-all duration-300 text-center w-full sm:w-32 h-24 sm:h-28 flex flex-col justify-center items-center hover:transform hover:-translate-y-2 hover:shadow-xl hover:border-amber-400 ${activeTab === category.name ? 'bg-gradient-to-br from-blue-500 to-blue-700 border-blue-500 text-white transform -translate-y-1 shadow-lg' : ''}`}
                         onClick={() => handleCategoryFilter(category.name)}
                     >
                         <div className={`text-xl sm:text-2xl mb-1 ${activeTab === category.name ? 'transform scale-110' : ''}`}>{category.icon}</div>
@@ -18,7 +18,7 @@ const CategoriesSection = ({ categories, activeTab, handleCategoryFilter }) => {
                 ))}
                 {activeTab !== "all" && (
                     <div
-                        className="p-3 sm:p-4 px-2 sm:px-3 bg-gradient-to-br from-red-500 to-red-600 border-red-500 text-white cursor-pointer transition-all duration-300 text-center w-full sm:w-32 h-16 sm:h-20 flex flex-col justify-center items-center hover:transform hover:-translate-y-2 hover:shadow-xl hover:border-red-600 hover:bg-gradient-to-br hover:from-red-600 hover:to-red-700"
+                        className="p-3 sm:p-4 px-2 sm:px-3 bg-gradient-to-br from-red-500 to-red-600 border-red-500 text-white cursor-pointer transition-all duration-300 text-center w-full sm:w-32 h-24 sm:h-28 flex flex-col justify-center items-center hover:transform hover:-translate-y-2 hover:shadow-xl hover:border-red-600 hover:bg-gradient-to-br hover:from-red-600 hover:to-red-700"
                         onClick={() => handleCategoryFilter("all")}
                     >
                         <div className="text-xl sm:text-2xl mb-1">✖</div>

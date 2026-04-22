@@ -122,7 +122,7 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
+        <div className=" mt-20 min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-4" style={{
             backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920')"
         }}>
             {/* Modern Form Section */}
