@@ -67,6 +67,7 @@ const upload = multer({
 // ========================================
 
 // Get all jobs (public access)
+router.get("/", getJob);
 router.get("/getjob", getJob);
 
 // ========================================
