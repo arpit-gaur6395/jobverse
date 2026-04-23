@@ -38,29 +38,44 @@ export const postJob = async (req, res) => {
  */
 export const getJob = async (req, res) => {
   try {
+    // If pagination parameters are provided, use pagination
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+    const usePagination = req.query.page || req.query.limit;
 
-    const jobs = await Job.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+    let jobs;
+    let total;
+    let totalPages;
 
-    const total = await Job.countDocuments();
-    const totalPages = Math.ceil(total / limit);
+    if (usePagination) {
+      const skip = (page - 1) * limit;
+      jobs = await Job.find()
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
 
-    res.status(200).json({
-      jobs,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalJobs: total,
-        jobsPerPage: limit,
-        hasNext: page < totalPages,
-        hasPrev: page > 1
-      }
-    });
+      total = await Job.countDocuments();
+      totalPages = Math.ceil(total / limit);
+
+      res.status(200).json({
+        jobs,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalJobs: total,
+          jobsPerPage: limit,
+          hasNext: page < totalPages,
+          hasPrev: page > 1
+        }
+      });
+    } else {
+      // Fetch all jobs without pagination for home page
+      jobs = await Job.find()
+        .sort({ createdAt: -1 })
+        .lean(); // Use lean() for faster queries
+
+      res.status(200).json({ jobs });
+    }
   } catch (err) {
     console.error("Error fetching jobs:", err);
     res.status(500).json({

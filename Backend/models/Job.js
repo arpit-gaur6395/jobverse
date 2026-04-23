@@ -18,4 +18,10 @@ const jobSchema = new mongoose.Schema({
     ]
 }, { timestamps: true });
 
+// Add indexes for better query performance
+jobSchema.index({ createdAt: -1 });
+jobSchema.index({ company: 1 });
+jobSchema.index({ location: 1 });
+jobSchema.index({ userId: 1 });
+
 export default mongoose.model("Job", jobSchema);
